@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Android 上传AAR文件到本地Maven仓库并且引用1.前言建议电脑端观看，多图慎入 平常项目中遇到的一些公共组件，公共模块,多个项目都在使用的情况下，我们一般有以下几种做法 1.整个module导入工程，如果module中有什么bug，修改了还要其他项目再重新添加进去，很不方便  2.module打包AAR，多个项目引用添加，如果有什么bug，修改了重新发给其他项目成员重新更新  3.使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 上传AAR文件到本地Maven仓库并且引用">
+<meta property="og:url" content="http://yoursite.com/2018/09/19/本地maven搭建/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Android 上传AAR文件到本地Maven仓库并且引用1.前言建议电脑端观看，多图慎入 平常项目中遇到的一些公共组件，公共模块,多个项目都在使用的情况下，我们一般有以下几种做法 1.整个module导入工程，如果module中有什么bug，修改了还要其他项目再重新添加进去，很不方便  2.module打包AAR，多个项目引用添加，如果有什么bug，修改了重新发给其他项目成员重新更新  3.使用">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://i.imgur.com/4G5JfPm.png">
+<meta property="og:image" content="https://i.imgur.com/E4B511h.png">
+<meta property="og:image" content="https://i.imgur.com/O0pSK8d.png">
+<meta property="og:image" content="https://i.imgur.com/Npd7cHQ.png">
+<meta property="og:image" content="https://i.imgur.com/b74ZKfR.gif">
+<meta property="og:image" content="https://i.imgur.com/VQogClK.png">
+<meta property="og:image" content="https://i.imgur.com/G7xU4Om.png">
+<meta property="og:image" content="https://i.imgur.com/byGLCaK.png">
+<meta property="og:image" content="https://i.imgur.com/TWsTT82.png">
+<meta property="og:image" content="https://i.imgur.com/6yTRpfP.png">
+<meta property="og:image" content="https://i.imgur.com/GeIPG2E.png">
+<meta property="og:image" content="https://i.imgur.com/cvsSx0X.png">
+<meta property="og:image" content="https://i.imgur.com/BD6i486.png">
+<meta property="og:image" content="https://i.imgur.com/nJNcpsB.gif">
+<meta property="og:image" content="https://i.imgur.com/1oXOrVL.png">
+<meta property="og:image" content="https://i.imgur.com/DFZeMck.gif">
+<meta property="og:updated_time" content="2018-09-19T14:02:54.345Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 上传AAR文件到本地Maven仓库并且引用">
+<meta name="twitter:description" content="Android 上传AAR文件到本地Maven仓库并且引用1.前言建议电脑端观看，多图慎入 平常项目中遇到的一些公共组件，公共模块,多个项目都在使用的情况下，我们一般有以下几种做法 1.整个module导入工程，如果module中有什么bug，修改了还要其他项目再重新添加进去，很不方便  2.module打包AAR，多个项目引用添加，如果有什么bug，修改了重新发给其他项目成员重新更新  3.使用">
+<meta name="twitter:image" content="https://i.imgur.com/4G5JfPm.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/19/本地maven搭建/"/>
+
+
+
+
+
+  <title>Android 上传AAR文件到本地Maven仓库并且引用 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/19/本地maven搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android 上传AAR文件到本地Maven仓库并且引用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-19T21:06:29+08:00">
+                2018-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Android-上传AAR文件到本地Maven仓库并且引用"><a href="#Android-上传AAR文件到本地Maven仓库并且引用" class="headerlink" title="Android 上传AAR文件到本地Maven仓库并且引用"></a>Android 上传AAR文件到本地Maven仓库并且引用</h1><h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h2><p>建议电脑端观看，多图慎入</p>
+<p>平常项目中遇到的一些公共组件，公共模块,多个项目都在使用的情况下，我们一般有以下几种做法</p>
+<pre><code>1.整个module导入工程，如果module中有什么bug，修改了还要其他项目再重新添加进去，很不方便
+
+2.module打包AAR，多个项目引用添加，如果有什么bug，修改了重新发给其他项目成员重新更新
+
+3.使用Gradle Add Libay的方式 类似：implementation &apos;com.android.support:appcompat-v7:27.1.1&apos; 的方式来
+引用我们的module，如果有bug，只需要维护，修改的人直接重新上传module，我们修改版本号，重新bulid就可以更新module
+</code></pre><p>从上面可以看到，第三种做法更佳，所以呢，接下来，往下看</p>
+<h2 id="2-How-To-Use"><a href="#2-How-To-Use" class="headerlink" title="2.How To Use"></a>2.How To Use</h2><p>1.从文章标题知道，我们将要使用maven来管理我们的AAR文件，但是我们做Android开发也没有涉及到什么Maven相关的知识啊，怎么办呢，没关系，现在傻瓜式教学，首先看下图</p>
+<p><img src="https://i.imgur.com/4G5JfPm.png" alt=""></p>
+<p>这里用Rxjava举个例子，可以看到左边有很多的引用方式，apache maven ，apache Buildr，Gradle等引用方式，那么这maven引用和平时用Gradle引用又有什么关系呢？文章标题说上传到本地maven，那是不是就是用图上说的maven的方式去引用呢？别着急，接下来我就百度google一下，解决大家的问题，以及我也想知道，为什么上传到maven以后，可以通过gradle的方式来引用，哈哈。</p>
+<p>结果如下：</p>
+<pre><code>1.首先呢，maven和Gradle都是构建工具，
+2.我也没看明白，大概就是说，Gradle也是基于Maven来构建的，只是引用方式不同，maven采用xml的配置，gradle简化了这样的配置操作，一行代码可以搞定。
+</code></pre><p>这里有一篇文章做了maven和Gradle的对比：<a href="https://gradle.org/maven-vs-gradle/" target="_blank" rel="noopener">Gradle vs Maven Comparison</a> 、<a href="http://gad.qq.com/article/detail/16774" target="_blank" rel="noopener">Maven 和 Gradle 对比</a>，里面大概讲了gradle的灵活性，性能，用户体验都比maven好，这也是google采用gradle作为Android的官方build Tools。</p>
+<p>好了，上面讲了那么多题外话，不管怎么样（当然知其然更要知其所以然也很重要 调皮.jpg），接下来看看我们应该怎么用吧。</p>
+<p>分享一下我在开始捣鼓这个东西的时候，我是怎么一个思路吧，既然我知道可以通过maven的方式管理AAR文件，那么我们接下来要做的事情就是</p>
+<pre><code>1.要拥有一个maven仓库，能够上传到maven
+</code></pre><p>那么我们第一件事就是安装maven，这里nexus maven百度了解一下，那么我们就开始吧：</p>
+<h3 id="2-1-第一步"><a href="#2-1-第一步" class="headerlink" title="2.1 第一步"></a>2.1 第一步</h3><ul>
+<li>1.下载 nexus  <a href="https://www.sonatype.com/download-oss-sonatype" target="_blank" rel="noopener">https://www.sonatype.com/download-oss-sonatype</a></li>
+</ul>
+<p><img src="https://i.imgur.com/E4B511h.png" alt=""></p>
+<p>这里我选择Windows下载</p>
+<ul>
+<li>2.进入到你安装的目录，这里我最后逇目录是nexus-3.12.0-01-win64\nexus-3.12.0-01\bin 目录下执行 nexus.exe /run，然后等待安装，我这里已经安装好了执行nexus.exe /run是下面这个样子</li>
+</ul>
+<p><img src="https://i.imgur.com/O0pSK8d.png" alt=""></p>
+<ul>
+<li>3.需要进入到nexus-3.12.0-01\etc文件下 ，按需修改nexus-default.properties配置文件，这里我的配置文件如下：<br><img src="https://i.imgur.com/Npd7cHQ.png" alt=""></li>
+</ul>
+<ul>
+<li>4.然后可以使用<a href="http://127.0.0.1:8081" target="_blank" rel="noopener">http://127.0.0.1:8081</a>的地址打开，然后右上角登录，账号默认admin 密码 admin123，登录进去的界面：</li>
+</ul>
+<p><img src="https://i.imgur.com/b74ZKfR.gif" alt=""></p>
+<p>ok，到这里我们完成了第一阶段，安装了可以管理maven的这样一个平台。</p>
+<h3 id="2-2-第二步"><a href="#2-2-第二步" class="headerlink" title="2.2 第二步"></a>2.2 第二步</h3><p>既然已经安装好了，那么，我们也要有东西可以上传啊。那么我们肯定要有一个module啊，接下来我们新建一个简单的module测验</p>
+<h4 id="2-2-1-第一个新建model"><a href="#2-2-1-第一个新建model" class="headerlink" title="2.2.1 第一个新建model"></a>2.2.1 第一个新建model</h4><p><img src="https://i.imgur.com/VQogClK.png" alt=""></p>
+<p>上图可以看见，我们新建了一个很简单的module，里面添加了一个AAA的测试类，然后右边的文件证明这是一个apply plugin<br> 是Android libary，就知道啥意思了吧，哈哈，现在我们有一个module，然后怎么上传到maven呢，这里有2种方式</p>
+<h4 id="2-2-2上传AAR包-做法1"><a href="#2-2-2上传AAR包-做法1" class="headerlink" title="2.2.2上传AAR包 做法1"></a>2.2.2上传AAR包 做法1</h4><p>#####2.2.2.1 创建，上传AAR#####<br>.首先生成一个AAR文件，执行gradle task-&gt; build assembleRelease</p>
+<p><img src="https://i.imgur.com/G7xU4Om.png" alt=""></p>
+<p>打开我们的<a href="http://127.0.0.1:8081/" target="_blank" rel="noopener">http://127.0.0.1:8081/</a>这个网站，如果发现打不开了，估计是服务被关了，重新启动一下就好了，启动方式还是刚才安装的那个命令</p>
+<pre><code>打开cmd进入到安装目录下bin目录下打开 nexus.exe /run
+</code></pre><p>打开以后按照如下做法</p>
+<p>1.从左边切换到Browse菜单，然后点击maven-releases进入<br><img src="https://i.imgur.com/byGLCaK.png" alt=""><br>第一次应该出现这样的界面<br><img src="https://i.imgur.com/TWsTT82.png" alt=""></p>
+<p>2.上传AAR文件<br><img src="https://i.imgur.com/6yTRpfP.png" alt=""></p>
+<p>然后upload，会出现<br><img src="https://i.imgur.com/GeIPG2E.png" alt=""></p>
+<p>点击View it now查看，<br><img src="https://i.imgur.com/cvsSx0X.png" alt=""></p>
+<p>现在可以查看到我们上传的AAR咯</p>
+<h4 id="2-2-2-2-集成AAR"><a href="#2-2-2-2-集成AAR" class="headerlink" title="2.2.2.2 集成AAR"></a>2.2.2.2 集成AAR</h4><p>1.首先在我们需要引用项目的项目下的build.gradle文件下而<strong>不是最外层的build.gradle</strong>,添加</p>
+<pre><code>repositories {
+    maven {
+        url &apos;http://127.0.0.1:8081/repository/maven-releases&apos;  //这个路径就是Browse下maven-release右边有一个copy按钮，复制出来的。
+    }
+}
+</code></pre><p>然后添加 </p>
+<pre><code>implementation &apos;demo.xiaxiayige.com:testmaven:1.0.0@aar&apos;
+</code></pre><p>这里的组合就是刚才填写的 graoupId:artifactId:version这里注意需要后面跟上@aar,如果不跟上这个默认是去加载.jar的文件，就会出现找不到的情况，怎么样可以不加，后面会讲到。</p>
+<p>2.重新sync一下，就会从maven里面去下载我们的AAR包到本地，接下来看下效果<br><img src="https://i.imgur.com/BD6i486.png" alt=""></p>
+<p>我们使用了前面Module里面创建的一个AAA类里面的print方法，并且在测试类中能够正常打印</p>
+<p>怎么样，是不是很溜啊，傲娇.jpg</p>
+<h3 id="2-2-3-上传AAR包-做法2"><a href="#2-2-3-上传AAR包-做法2" class="headerlink" title="2.2.3 上传AAR包 做法2"></a>2.2.3 上传AAR包 做法2</h3><p>这种做法就比较easy了，直接看代码吧</p>
+<p>1.首先我们修改我们的AAA类 添加一个方法</p>
+<pre><code>package demo.xiaxiayige.com.testmaven;
+
+public class AAA {
+    public static void print(String string){
+        System.out.println(&quot;string = [&quot; + string + &quot;]&quot;);
+    }
+
+    public static boolean isEmpty(String str){
+        return str==null || str.length()==0;
+    }
+}
+</code></pre><p>2.然后在module的bulid.gradle下添加</p>
+<pre><code>apply plugin:&apos;maven&apos;
+</code></pre><p>和</p>
+<pre><code>uploadArchives {
+configuration = configurations.archives
+repositories {
+    mavenDeployer {
+        repository(url: &apos;http://127.0.0.1:8081/repository/maven-releases/&apos;) {
+            authentication(userName: &apos;admin&apos;, password: &apos;admin123&apos;)
+        }
+        pom.project {
+            version &apos;1.1.0&apos;
+            artifactId &apos;testmaven&apos;
+            groupId &apos;demo.xiaxiayige.com&apos;
+            packaging &apos;aar&apos;
+            description &apos;update version 1.1.0&apos;
+        }
+    }
+}
+}
+</code></pre><p>现在我们module的build.gradle 代码长这个样子</p>
+<pre><code>`apply plugin: &apos;com.android.library&apos;
+apply plugin:&apos;maven&apos; //新增
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName &quot;1.0&quot;
+
+        testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot;
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])
+
+    implementation &apos;com.android.support:appcompat-v7:27.1.1&apos;
+    testImplementation &apos;junit:junit:4.12&apos;
+    androidTestImplementation &apos;com.android.support.test:runner:1.0.2&apos;
+    androidTestImplementation &apos;com.android.support.test.espresso:espresso-core:3.0.2&apos;
+}
+
+
+uploadArchives { //新增 ，因为Android Studio gradle 支持maven插件，所以可以添加此task
+    configuration = configurations.archives
+    repositories {
+        mavenDeployer {
+            repository(url: &apos;http://127.0.0.1:8081/repository/maven-releases/&apos;) {
+                authentication(userName: &apos;admin&apos;, password: &apos;admin123&apos;)
+            }
+            pom.project {
+                version &apos;1.1.0&apos; //版本名称
+                artifactId &apos;testmaven&apos;  //和前面网站上填写的一样
+                groupId &apos;demo.xiaxiayige.com&apos;  //和前面网站上填写的一样
+                packaging &apos;aar&apos; //填写aar
+                description &apos;update version 1.1.0 add new method&apos; //更新描述
+            }
+        }
+    }
+}
+</code></pre><p>`<br>更多关于gradle maven插件 详情查看 <a href="https://docs.gradle.org/current/userguide/maven_plugin.html" target="_blank" rel="noopener">Maven Plugin</a></p>
+<p>最后我们执行uploadArchives task</p>
+<p><img src="https://i.imgur.com/nJNcpsB.gif" alt=""></p>
+<p>ok 可以看见bulid success。我们再去网站上看看，有没有1.1.0版本的存在</p>
+<p><img src="https://i.imgur.com/1oXOrVL.png" alt=""></p>
+<p>然后再去引用项目的build.gradle 代码修改版本号，改为   implementation ‘demo.xiaxiayige.com:testmaven:1.1.0’，重新sync，</p>
+<p>这个时候，可以发现后面不用添加@aar也可以引用成功</p>
+<p>我们再去测试代码调用刚才新增的这样一个方法</p>
+<p><img src="https://i.imgur.com/DFZeMck.gif" alt=""></p>
+<p>嗯，真是溜呢。</p>
+<p>到这里，基本上结束了。</p>
+<h2 id="3-结尾"><a href="#3-结尾" class="headerlink" title="3.结尾"></a>3.结尾</h2><p>惯例结尾 喜欢的点个赞</p>
+<h2 id="4-彩蛋"><a href="#4-彩蛋" class="headerlink" title="4.彩蛋"></a>4.彩蛋</h2><p>总结一下吧：</p>
+<pre><code>1.安装maven管理的一个工具nexus
+2.制作AAR
+3.网站上传AAR
+4.代码上传AAR
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/19/重新认识Gradle（二）-创建一个新的Gradle构建/" rel="next" title="重新认识Gradle（二）">
+                <i class="fa fa-chevron-left"></i> 重新认识Gradle（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/19/Kotlin Data Class 使用以及注意事项/" rel="prev" title="Kotlin Data Class 使用以及注意事项">
+                Kotlin Data Class 使用以及注意事项 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-上传AAR文件到本地Maven仓库并且引用"><span class="nav-number">1.</span> <span class="nav-text">Android 上传AAR文件到本地Maven仓库并且引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-前言"><span class="nav-number">1.1.</span> <span class="nav-text">1.前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-How-To-Use"><span class="nav-number">1.2.</span> <span class="nav-text">2.How To Use</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-第一步"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 第一步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-第二步"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 第二步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-第一个新建model"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">2.2.1 第一个新建model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2上传AAR包-做法1"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.2.2上传AAR包 做法1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-2-集成AAR"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">2.2.2.2 集成AAR</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-上传AAR包-做法2"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.2.3 上传AAR包 做法2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-结尾"><span class="nav-number">1.3.</span> <span class="nav-text">3.结尾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-彩蛋"><span class="nav-number">1.4.</span> <span class="nav-text">4.彩蛋</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
